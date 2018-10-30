@@ -1,0 +1,40 @@
+body{font-family:"microsoft yahei"; background-color:#fef0dd}
+.co_in{
+	margin:auto;
+	padding:0;
+
+	width: 80%
+}
+.co_block{
+	margin: 0px 0px 15px 0px
+}
+.co_label{
+	font-size: 14px;
+	margin: 15px 0px 0px 0px
+}
+#show{
+	width: 100%;
+	border-bottom: 1px dashed #000 
+}
+#co_head{
+	background-color: #4b1808;
+	padding: 30px 0px;
+	border-bottom: 1px dashed #000 
+}
+#co_mes{
+	padding: 30px 0px;
+	border-bottom: 1px dashed #000 
+}
+#co_foot{
+	padding: 30px 0px;
+	border-top: 1px dashed #000 
+}
+.num_show{
+	background-color: rgba(0,0,0,0.5);
+}
+.dofloat{
+	float: left
+}
+#button_g{
+	height: 75px;
+}
