@@ -31,9 +31,9 @@
 				<div class="co_in">
 					<div class="col-xs-12 co_label">
 						<p>1、主要用于儿童口算启蒙，减轻家长口算题出题负担；</p>
-						<p>2、这个口算题生成器主要有两部分组成，①参数设置部分、②结果控制部分（可以不填）；</p>
-						<p>3、点击最下方的“添加算式”绿色按钮就可以生成算式了！（再点一次“添加算式”就会追加新的算式，主要用来不同算式的混合）</p>
-						<p>4、支持手机、平板、PC各种设备（手机端打印功能无法使用，推荐在PC端使用chrome浏览器）；</p>
+						<p>2、这个口算题生成器主要有两部分组成，①参数设置部分——填写参数范围和选择运算符 ②结果控制部分（可以不填）；</p>
+						<p>3、点击最下方的“添加算式”绿色按钮就可以生成算式了！（再点一次“添加算式”就会追加新的算式）</p>
+						<p>4、手机端“打印算式”功能无法使用，推荐在PC端使用chrome浏览器；</p>
 						<p>5、商业合作或者发现问题可以给我发送邮件 hellobat@outlook.com ,其他事情就不要打扰我了，谢谢！</p>
 						<p>6、祝您使用愉快！</p>
 					</div>
@@ -47,14 +47,14 @@
 						<label for="">第1个数字</label>
 					</div>
 					<div class="col-xs-12 co_block co_canshu">
-						<input class="form-control" type="text" name="nr1" placeholder="最小值">
+						<input class="form-control" type="text" name="nr1" placeholder="最小值（必填）">
 						<br>
-						<input class="form-control" type="text" name="nr1" placeholder="最大值">
+						<input class="form-control" type="text" name="nr1" placeholder="最大值（必填）">
 						<br>
 						<input class="form-control" type="text" name="nr1" placeholder="保留几位小数（可以不填）">
 					</div>
 					<div class="col-xs-12 co_label">
-						<label>运算符</label>
+						<label>运算符（至少选择一个）</label>
 					</div>
 					<div class="col-xs-12 co_block co_yunsuanfu">
 						<label class="checkbox-inline"><input type="checkbox" name="fuhao" value="jia">加法（+）</label>
@@ -66,9 +66,9 @@
 						<label>第2个数字</label>
 					</div>
 					<div class="col-xs-12 co_block co_canshu ">
-						<input class="form-control" type="text" name="nr1" placeholder="最小值">
+						<input class="form-control" type="text" name="nr1" placeholder="最小值（必填）">
 						<br>
-						<input class="form-control" type="text" name="nr1" placeholder="最大值">
+						<input class="form-control" type="text" name="nr1" placeholder="最大值（必填）">
 						<br>
 						<input class="form-control" type="text" name="nr1" placeholder="保留几位小数（可以不填）">
 
@@ -164,7 +164,7 @@
 					</div>
 					<div class="col-xs-12 co_block">
 
-						<input id="co_result" class="form-control" type="text" name="num" placeholder="算式数量"><br />
+						<input id="co_result" class="form-control" type="text" name="num" placeholder="算式数量（必填）"><br />
 						<br>
 						<p>控制输出格式：</p>
 						<input id="co_title" class="form-control" type="text" placeholder="试卷标题">
