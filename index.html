@@ -21,7 +21,7 @@
 					<div class="col-xs-12 co_label" style="color:#ffffff">
 						<p class="text-center"><img src="img/touxiang_logo.png" alt=""></p>
 
-						<h3 class="text-center">人工智能·口算题生成器</h3>
+						<h3 class="text-center">小学数学算式题生成器2.0</h3>
 						<br>
 
 					</div>
@@ -30,12 +30,11 @@
 			<div class="row" id="co_mes">
 				<div class="co_in">
 					<div class="col-xs-12 co_label">
-						<p>1、主要用于儿童口算启蒙，减轻家长口算题出题负担；</p>
-						<p>2、这个口算题生成器主要有两部分组成，①参数设置部分——填写参数范围和选择运算符 ②结果控制部分（可以不填）；</p>
-						<p>3、点击最下方的“添加算式”绿色按钮就可以生成算式了！（再点一次“添加算式”就会追加新的算式）</p>
-						<p>4、手机端“打印算式”功能无法使用，推荐在PC端使用chrome浏览器；</p>
-						<p>5、商业合作或者发现问题可以给我发送邮件 hellobat@outlook.com ,其他事情就不要打扰我了，谢谢！</p>
-						<p>6、祝您使用愉快！</p>
+						<p>1、增加了生成括号算式（终于填坑，时间有点漫长……）</p>
+						<p>2、增加了控制最后一位数的功能，可以防止出现小数点算式19.0+5.0的情况</p>
+						<p>3、增加了控制算式输出字号的功能</p>
+
+
 					</div>
 				</div>
 			</div>
@@ -75,20 +74,32 @@
 					</div>
 				</div>
 			</div>
-
-			<!-- 添加按钮 -->
+			<div class="row" id="co_add_bra">
+				<div class="co_in ">
+					<div class=" col-xs-12 co_label">
+						<label>给算式添加括号（三个参数以上才可添加，有些算式无法添加括号如A+B+C、A+B-C、AxBxC等）</label>
+					</div>
+					<div class="col-xs-12 co_block " id="co_add_bra_input">
+						<label class="checkbox-inline"><input id="add_bra_id" type="checkbox" name="do_add_bra"
+								value="add_bra">添加括号</label>
+					</div>
+				</div>
+			</div>
+	<!-- 添加按钮 -->
 			<div class="row" id="co_add">
 
 				<div class="col-xs-3 co_block ">
 				</div>
 				<div class="col-xs-3 co_block ">
-					<div class="center-block text-center" id="co_add_a"><span class="glyphicon glyphicon-plus-sign" style="font-size:50px;color:#5cb85c"></span>
+					<div class="center-block text-center btn" id="co_add_a"><span class="glyphicon glyphicon-plus-sign"
+							style="font-size:50px;color:#5cb85c"></span>
 						<br>
 						<span>增加一个参数</span>
 					</div>
 				</div>
 				<div class="col-xs-3 co_block ">
-					<div class="center-block text-center" id="co_del_a"><span class="glyphicon glyphicon-minus-sign" style="font-size:50px;color:#d9534f"></span>
+					<div class="center-block text-center btn" id="co_del_a"><span class="glyphicon glyphicon-minus-sign"
+							style="font-size:50px;color:#d9534f"></span>
 						<br>
 						<span>删除一个参数</span>
 					</div>
@@ -104,30 +115,37 @@
 
 					<div class="col-xs-12 co_block">
 
-						<label class="checkbox-inline"><input class="co_result_method" id="show_jinwei" type="checkbox" value="do_result_jinwei"
-							 data-toggle="collapse" data-target="#jinwei" aria-expanded="false" aria-controls="collapseExample">是否进位或退位</label>
+						<label class="checkbox-inline"><input class="co_result_method" id="show_jinwei" type="checkbox"
+								value="do_result_jinwei" data-toggle="collapse" data-target="#jinwei"
+								aria-expanded="false" aria-controls="collapseExample">是否进位或退位</label>
 
 						<div id="jinwei" class="collapse">
 							<div class="well">
-								<label><input type="radio" name="optionsRadios" id="optionsRadios1" value="do_result_ahead">进位</label>
-								<label><input type="radio" name="optionsRadios" id="optionsRadios2" value="do_result_back">退位</label>
-								<label><input type="radio" name="optionsRadios" id="optionsRadios2" value="do_result_ahead_back">进位或退位</label>
-								<label><input type="radio" name="optionsRadios" id="optionsRadios2" value="do_result_stay" checked>不进位不退位</label>
+								<label><input type="radio" name="optionsRadios" id="optionsRadios1"
+										value="do_result_ahead">进位</label>
+								<label><input type="radio" name="optionsRadios" id="optionsRadios2"
+										value="do_result_back">退位</label>
+								<label><input type="radio" name="optionsRadios" id="optionsRadios2"
+										value="do_result_ahead_back">进位或退位</label>
+								<label><input type="radio" name="optionsRadios" id="optionsRadios2"
+										value="do_result_stay" checked>不进位不退位</label>
 								<p><span>通常用于低年级类似12-8，4+7，等计算结果与第一个参数位数改变的计算</span></p>
 							</div>
 						</div>
 					</div>
 
 					<div class="col-xs-12 co_block">
-						<label class="checkbox-inline"><input class="co_result_method" id="show_kuohao" type="checkbox" value="do_result_kuohao"
-							 data-toggle="collapse" data-target="#kuohao" aria-expanded="false" aria-controls="collapseExample">括号出现的概率（挖坑，有时间填坑）</label>
+						<label class="checkbox-inline"><input class="co_result_method" id="show_kuohao" type="checkbox"
+								value="do_result_kuohao" data-toggle="collapse" data-target="#kuohao"
+								aria-expanded="false" aria-controls="collapseExample">只保留带括号的算式</label>
 						<div class="collapse" id="kuohao">
-							<input class="form-control" type="text" name="kuohao" value="别试了，这个功能现在还没开发" disabled="true">
+							<input class="form-control" type="text" name="kuohao" value="只有选中【给算式添加括号】选项，本选项开可使用">
 						</div>
 					</div>
 					<div class="col-xs-12 co_block">
-						<label class="checkbox-inline"><input class="co_result_method" id="show_chachong" type="checkbox" value="do_result_nofu"
-							 data-toggle="collapse" data-target="#nofu" aria-expanded="true" aria-controls="collapseExample">计算过程中不能为负数</label>
+						<label class="checkbox-inline"><input class="co_result_method" id="show_chachong"
+								type="checkbox" value="do_result_nofu" data-toggle="collapse" data-target="#nofu"
+								aria-expanded="true" aria-controls="collapseExample">计算过程中不能为负数</label>
 						<div class="collapse" id="nofu">
 							<div class="well">
 								<p><span>针对3组数字以上的混合运算，过程中不能出现负数 <br> 例如：想要避免出现如下算式“1-6+7”</span></p>
@@ -135,8 +153,10 @@
 						</div>
 					</div>
 					<div class="col-xs-12 co_block">
-						<label class="checkbox-inline"><input class="co_result_method" id="show_chachong" type="checkbox" value="do_result_zhengchu"
-							 data-toggle="collapse" data-target="#zhengchu" aria-expanded="true" aria-controls="collapseExample">计算过程中能够被整除</label>
+						<label class="checkbox-inline"><input class="co_result_method" id="show_chachong"
+								type="checkbox" value="do_result_zhengchu" data-toggle="collapse"
+								data-target="#zhengchu" aria-expanded="true"
+								aria-controls="collapseExample">计算过程中能够被整除</label>
 						<div class="collapse" id="zhengchu">
 							<div class="well">
 								<p><span>如果算式计算过程中出现除法，那么要让算式能够被整除 <br> 例如：想要避免出现如下算式“1+6÷7”</span></p>
@@ -144,8 +164,18 @@
 						</div>
 					</div>
 					<div class="col-xs-12 co_block">
-						<label class="checkbox-inline"><input class="co_result_method" id="show_jieguo" type="checkbox" value="do_result_range"
-							 data-toggle="collapse" data-target="#jieguo" aria-expanded="true" aria-controls="collapseExample">结果范围</label>
+						<label class="checkbox-inline"><input class="co_result_method" id="show_jiewei" type="checkbox"
+								value="do_result_jiewei" data-toggle="collapse" data-target="#jiewei"
+								aria-expanded="true" aria-controls="collapseExample">控制最后一位不能出现哪个数字</label>
+						<div class="collapse" id="jiewei">
+							<input class="form-control" type="text" name="jiewei_min" placeholder="0-9的数字">
+
+						</div>
+					</div>
+					<div class="col-xs-12 co_block">
+						<label class="checkbox-inline"><input class="co_result_method" id="show_jieguo" type="checkbox"
+								value="do_result_range" data-toggle="collapse" data-target="#jieguo"
+								aria-expanded="true" aria-controls="collapseExample">结果范围</label>
 						<div class="collapse" id="jieguo">
 							<input class="form-control" type="text" name="jieguo_min" placeholder="最小值">
 							<br>
@@ -154,8 +184,10 @@
 					</div>
 
 					<div class="col-xs-12 co_block">
-						<label class="checkbox-inline"><input class="co_result_method" id="show_chachong" type="checkbox" value="do_result_chachong"
-							 data-toggle="collapse" data-target="#chachong" aria-expanded="true" aria-controls="collapseExample">去除重复算式</label>
+						<label class="checkbox-inline"><input class="co_result_method" id="show_chachong"
+								type="checkbox" value="do_result_chachong" data-toggle="collapse"
+								data-target="#chachong" aria-expanded="true"
+								aria-controls="collapseExample">去除重复算式</label>
 						<div class="collapse" id="chachong">
 							<div class="well">
 								<p><span>对生成算式查重</span></p>
@@ -163,31 +195,41 @@
 						</div>
 					</div>
 					<div class="col-xs-12 co_block">
-
-						<input id="co_result" class="form-control" type="text" name="num" placeholder="算式数量（必填）"><br />
-						<br>
 						<p>控制输出格式：</p>
+						<input id="co_result" class="form-control" type="text" name="num" placeholder="算式数量（必填）">
+						<br>
+						
 						<input id="co_title" class="form-control" type="text" placeholder="试卷标题">
 						<br>
-						<input type="text" class="form-control" id="co_tr_num" placeholder="表格列数" aria-describedby="inputGroupSuccess1Status">
+						<input type="text" class="form-control" id="co_tr_num" placeholder="表格列数"
+							aria-describedby="inputGroupSuccess1Status">
 						<br>
-						<input type="text" class="form-control" id="co_td_height" placeholder="表格单行高度" aria-describedby="inputGroupSuccess1Status">
+						<input type="text" class="form-control" id="co_td_height" placeholder="表格单行高度"
+							aria-describedby="inputGroupSuccess1Status">
 						<br>
-						<div class="input-group button_g" >
+						<input type="text" class="form-control" id="co_font_size" placeholder="字体大小"
+							aria-describedby="inputGroupSuccess1Status">
+						<br>
+						<div class="input-group button_g">
 
 
-							<div class="btn btn-success input-group-addon" id="show_table_add" style="background-color:#5cb85c;border: #5cb85c;color: white"><span>添加算式</span>
+							<div class="btn btn-success input-group-addon" id="show_table_add"
+								style="background-color:#5cb85c;border: #5cb85c;color: white"><span>添加算式</span>
 							</div>
-							<div class="btn btn-success input-group-addon" id="show_table_mix" style="background-color:#f0ad4e;border: #f0ad4e;color: white"><span>混排算式</span>
+							<div class="btn btn-success input-group-addon" id="show_table_mix"
+								style="background-color:#f0ad4e;border: #f0ad4e;color: white"><span>混排算式</span>
 							</div>
-							<div class="btn btn-success input-group-addon" id="show_table" style="background-color:#d9534f;border: #d9534f;color: white"><span>清空算式</span>
+							<div class="btn btn-success input-group-addon" id="show_table"
+								style="background-color:#d9534f;border: #d9534f;color: white"><span>清空算式</span>
 							</div>
 						</div>
 						<br>
 						<div class="input-group button_g">
-							<div class="btn btn-success input-group-addon" id="point_text" style="background-color:#5bc0de;border: #5bc0de;color: white"><span>打印算式</span>
+							<div class="btn btn-success input-group-addon" id="point_text"
+								style="background-color:#5bc0de;border: #5bc0de;color: white"><span>打印算式</span>
 							</div>
-							<div class="btn btn-success input-group-addon" id="clip_board" style="background-color:#204d74;border: #204d74;color: white"><span>复制到剪切板</span>
+							<div class="btn btn-success input-group-addon" id="clip_board"
+								style="background-color:#204d74;border: #204d74;color: white"><span>复制到剪切板</span>
 							</div>
 						</div>
 					</div>
@@ -195,9 +237,9 @@
 
 				</div>
 			</div>
+		</form>
 	</div>
-	</div>
-	</form>
+
 	<div id="table_show">
 
 

@@ -5,7 +5,6 @@ $(document).ready(
 );
 
 function init() {
-
 	//按钮添加参数事件
 	$("#co_add_a").click(do_add_canshu);
 	$("#co_del_a").click(do_del_canshu);
@@ -17,7 +16,23 @@ function init() {
 
 	$("#point_text").click(do_print);
 	$("#clip_board").click(do_copy);
+	//检测括号选项
+	let add_bra_ele = document.getElementById("add_bra_id");
+	let show_kuohao_ele = document.getElementById("show_kuohao");
+	show_kuohao_ele.disabled = true;
+	add_bra_ele.onclick = function (e) {
+		if (add_bra_ele.checked) {
+			show_kuohao_ele.disabled = false;
+		} else {
+			show_kuohao_ele.checked = false;
+			show_kuohao_ele.disabled = true;
+		}
+
+	}
+
 }
+
+
 //表格格式化
 function do_table_format(result_arr) {
 	for (let index = 0; index < result_arr.length;) {
@@ -62,7 +77,7 @@ function do_table(result_arr) {
 	$("#table_show").html('');
 	//题目
 	let get_title = $("#co_title").prop("value");
-	let title_str = "<h3 class='text-center'>" + get_title + "<h3>";
+	let title_str = "<h3 class='text-center'>" + get_title + "</h3>";
 	$("#table_show").prepend(title_str);
 	//表格
 	let get_tr_num = parseInt($("#co_tr_num").prop("value"));
@@ -79,7 +94,11 @@ function do_table(result_arr) {
 	if (get_td_height <= 0) {
 		alert("表格单行高度输入错误，请重新输入")
 	}
-	let table_str = '<table class="table table-striped">';
+	let get_font_size = parseInt($("#co_font_size").prop("value")) + "px";
+	if ($("#co_font_size").prop("value").trim() == "") {
+		get_font_size = "18px";
+	}
+	let table_str = '<table class="table table-striped" style="font-size:' + get_font_size + '">';
 	let add_n_str = '';
 	for (let j = 0; j < get_td_height; j++) {
 		add_n_str += "<br>";
@@ -129,7 +148,7 @@ function do_result_num() {
 	let result_method_pass = true;
 	while (i < result_num) {
 		if (while_time == 199999) {
-			alert("运行时间过长，共计算出"+result_arr.length+"个结果，请检查您的设置");
+			alert("运行时间过长，共计算出" + result_arr.length + "个结果，请检查您的设置");
 			break;
 		}
 		while_time++;
@@ -192,10 +211,31 @@ result_method_class = {
 			return result_range
 		}
 	},
+	do_result_jiewei: function (build_arr) {
+		let result_jiewei = true;
+
+		let result_jiewei_num = parseFloat($("#jiewei input")[0].value);
+		for (let index = 0; index < build_arr.length; index++) {
+			let build_arr_num = parseFloat(build_arr[index]);
+			if (!isNaN(build_arr_num)) {
+				let build_arr_str = build_arr_num.toString();
+				if (build_arr_str.slice(-1) == result_jiewei_num.toString()) {
+					result_jiewei = false;
+				}
+			}
+		}
+		return result_jiewei
+
+	},
+
 	do_result_jinwei: function (build_arr) {
 		let result_jinwei;
 		let result_string = eval(build_arr.join("")).toString();
-		let result_weishu = build_arr[0].length - result_string.length;
+		let index_num = 0;
+		if (build_arr.indexOf("(") == 0) {
+			index_num = 1;
+		}
+		let result_weishu = build_arr[index_num].length - result_string.length;
 		let result_radio = $("#jinwei input[type='radio']");
 		for (let index = 0; index < result_radio.length; index++) {
 			let result_radio_index = result_radio.eq(index);
@@ -224,75 +264,214 @@ result_method_class = {
 		let build_arr_new = build_arr.slice().join("");
 		let result_arr_new = result_arr.slice();
 		for (let index = 0; index < result_arr_new.length; index++) {
-			
-			if(result_arr_new[index].join("")===build_arr_new){
+
+			if (result_arr_new[index].join("") === build_arr_new) {
 				return false
 			}
 		}
 		return true
 
 	},
-	do_result_nofu: function (build_arr) {
-		let result_nofu = false;
-		let build_arr_new = build_arr.slice();
 
-		function nofu_fn() {
-			let nofu_cheng = build_arr_new.indexOf("*");
-			let nofu_chu = build_arr_new.indexOf("/");
-			if (build_arr_new.length >= 3) {
-				if ((nofu_cheng < nofu_chu || nofu_chu < 0) && nofu_cheng >= 0) {
-					build_arr_new.splice(nofu_cheng - 1, 3, parseFloat(build_arr_new[nofu_cheng - 1]) * parseFloat(build_arr_new[nofu_cheng + 1]));
-					nofu_fn();
-				} else if ((nofu_cheng > nofu_chu || nofu_cheng < 0) && nofu_chu >= 0) {
-					build_arr_new.splice(nofu_chu - 1, 3, parseFloat(build_arr_new[nofu_chu - 1]) / parseFloat(build_arr_new[nofu_chu + 1]));
-					nofu_fn();
+	do_result_kuohao: function (build_arr) {
+		if ($("#co_add_bra_input input").eq(0).prop("checked")) {
+			if (build_arr.indexOf(")") >= 0) {
+				return true
+			} else {
+				return false
+			}
+		} else {
+			alert("请先选中上方【添加括号选项】，否则本选项无法使用");
+			return
+		}
+	},
+
+
+	//修改后的
+	do_result_nofu: function (build_arr) {
+		let build_arr_new = build_arr.slice();
+		let result_nofu = false;
+		nofu_fn_bar = function () {
+			let nofu_fn_l_bra = build_arr_new.lastIndexOf("(");
+			let nofu_fn_r_bra = build_arr_new.indexOf(")", nofu_fn_l_bra);
+			if (nofu_fn_l_bra >= 0) {
+				build_arr_new_bar = build_arr_new.splice(nofu_fn_l_bra, nofu_fn_r_bra - nofu_fn_l_bra + 1);
+				let nofu_fn_chengchu_return = nofu_fn_chengchu(build_arr_new_bar);
+				if (nofu_fn_chengchu_return[0]) {
+					build_arr_new.splice(nofu_fn_l_bra, 0, nofu_fn_chengchu_return[1]);
+					nofu_fn_bar();
 				} else {
-					let eval_build_arr2 = eval(build_arr_new.splice(0, 3).join(""));
-					if (eval_build_arr2 >= 0) {
-						build_arr_new.unshift(eval_build_arr2);
-						nofu_fn();
-					} else {
-						result_nofu = false;
-						return
-					}
+					result_nofu = false;
+					return
 				}
 			} else {
-				result_nofu = true;
+				result_nofu = nofu_fn_chengchu(build_arr_new)[0];
 				return
 			}
 		}
-		nofu_fn();
+
+		nofu_fn_chengchu = function (nofu_arr) {
+
+			if (nofu_arr.indexOf("(") >= 0) {
+				nofu_arr.pop();
+				nofu_arr.shift();
+			}
+
+			//console.log(nofu_arr);
+			let result_nofu_fn_chengchu = [false, ""];
+			let nofu_cheng = nofu_arr.indexOf("*");
+			let nofu_chu = nofu_arr.indexOf("/");
+			if (nofu_arr.length >= 3) {
+
+				if ((nofu_cheng < nofu_chu || nofu_chu < 0) && nofu_cheng >= 0) {
+					nofu_arr.splice(nofu_cheng - 1, 3, parseFloat(nofu_arr[nofu_cheng - 1]) * parseFloat(nofu_arr[nofu_cheng + 1]));
+					return nofu_fn_chengchu(nofu_arr);
+				} else if ((nofu_cheng > nofu_chu || nofu_cheng < 0) && nofu_chu >= 0) {
+					nofu_arr.splice(nofu_chu - 1, 3, parseFloat(nofu_arr[nofu_chu - 1]) / parseFloat(nofu_arr[nofu_chu + 1]));
+					return nofu_fn_chengchu(nofu_arr);
+				} else {
+					let eval_build_arr2 = eval(nofu_arr.splice(0, 3).join(""));
+					if (eval_build_arr2 >= 0) {
+						nofu_arr.unshift(eval_build_arr2);
+						return nofu_fn_chengchu(nofu_arr);
+					} else {
+						return result_nofu_fn_chengchu = [false, false];
+					}
+				}
+			} else {
+				result_nofu_fn_chengchu = [true, nofu_arr[0]];
+				return result_nofu_fn_chengchu
+			}
+		}
+		nofu_fn_bar();
 		return result_nofu
 	},
+
+	//原函数修改前do_result_nofu
+	// do_result_nofu: function (build_arr) {
+	// 	let result_nofu = false;
+	// 	let build_arr_new = build_arr.slice();
+
+	// 	function nofu_fn() {
+	// 		let nofu_cheng = build_arr_new.indexOf("*");
+	// 		let nofu_chu = build_arr_new.indexOf("/");
+	// 		if (build_arr_new.length >= 3) {
+	// 			if ((nofu_cheng < nofu_chu || nofu_chu < 0) && nofu_cheng >= 0) {
+	// 				build_arr_new.splice(nofu_cheng - 1, 3, parseFloat(build_arr_new[nofu_cheng - 1]) * parseFloat(build_arr_new[nofu_cheng + 1]));
+	// 				nofu_fn();
+	// 			} else if ((nofu_cheng > nofu_chu || nofu_cheng < 0) && nofu_chu >= 0) {
+	// 				build_arr_new.splice(nofu_chu - 1, 3, parseFloat(build_arr_new[nofu_chu - 1]) / parseFloat(build_arr_new[nofu_chu + 1]));
+	// 				nofu_fn();
+	// 			} else {
+	// 				let eval_build_arr2 = eval(build_arr_new.splice(0, 3).join(""));
+	// 				if (eval_build_arr2 >= 0) {
+	// 					build_arr_new.unshift(eval_build_arr2);
+	// 					nofu_fn();
+	// 				} else {
+	// 					result_nofu = false;
+	// 					return
+	// 				}
+	// 			}
+	// 		} else {
+	// 			result_nofu = true;
+	// 			return
+	// 		}
+	// 	}
+	// 	nofu_fn();
+	// 	return result_nofu
+	// },
+
+	//新整除函数
 	do_result_zhengchu: function (build_arr) {
-		let result_zhengchu = false;
 		let build_arr_new = build_arr.slice();
-
-		function zhengchu_fn() {
-			let zhengchu_cheng = build_arr_new.indexOf("*");
-			let zhengchu_chu = build_arr_new.indexOf("/");
-			if (build_arr_new.length >= 3 && zhengchu_chu >= 0) {
-				if (zhengchu_cheng < zhengchu_chu && zhengchu_cheng >= 0) {
-					build_arr_new.splice(zhengchu_cheng - 1, 3, parseFloat(build_arr_new[zhengchu_cheng - 1]) * parseFloat(build_arr_new[zhengchu_cheng + 1]));
-					zhengchu_fn();
+		let result_nofu = false;
+		nofu_fn_bar = function () {
+			let nofu_fn_l_bra = build_arr_new.lastIndexOf("(");
+			let nofu_fn_r_bra = build_arr_new.indexOf(")", nofu_fn_l_bra);
+			if (nofu_fn_l_bra >= 0) {
+				build_arr_new_bar = build_arr_new.splice(nofu_fn_l_bra, nofu_fn_r_bra - nofu_fn_l_bra + 1);
+				let nofu_fn_chengchu_return = nofu_fn_chengchu(build_arr_new_bar);
+				if (nofu_fn_chengchu_return[0]) {
+					build_arr_new.splice(nofu_fn_l_bra, 0, nofu_fn_chengchu_return[1]);
+					nofu_fn_bar();
 				} else {
-					if (parseFloat(build_arr_new[zhengchu_chu - 1]) % parseFloat(build_arr_new[zhengchu_chu + 1]) == 0) {
-						build_arr_new.splice(zhengchu_chu - 1, 3, parseFloat(build_arr_new[zhengchu_chu - 1]) / parseFloat(build_arr_new[zhengchu_chu + 1]));
-						zhengchu_fn();
-					} else {
-						result_zhengchu = false;
-						return
-
-					}
+					result_nofu = false;
+					return
 				}
 			} else {
-				result_zhengchu = true;
+				result_nofu = nofu_fn_chengchu(build_arr_new)[0];
 				return
 			}
 		}
-		zhengchu_fn();
-		return result_zhengchu
+
+		nofu_fn_chengchu = function (nofu_arr) {
+
+			if (nofu_arr.indexOf("(") >= 0) {
+				nofu_arr.pop();
+				nofu_arr.shift();
+			}
+
+			//console.log(nofu_arr);
+			let result_nofu_fn_chengchu = [false, ""];
+			let nofu_cheng = nofu_arr.indexOf("*");
+			let nofu_chu = nofu_arr.indexOf("/");
+			if (nofu_arr.length >= 3) {
+
+				if ((nofu_cheng < nofu_chu || nofu_chu < 0) && nofu_cheng >= 0) {
+					nofu_arr.splice(nofu_cheng - 1, 3, parseFloat(nofu_arr[nofu_cheng - 1]) * parseFloat(nofu_arr[nofu_cheng + 1]));
+					return nofu_fn_chengchu(nofu_arr);
+				} else if ((nofu_cheng > nofu_chu || nofu_cheng < 0) && nofu_chu >= 0) {
+					if (parseFloat(nofu_arr[nofu_chu - 1]) % parseFloat(nofu_arr[nofu_chu + 1]) == 0) {
+						nofu_arr.splice(nofu_chu - 1, 3, parseFloat(nofu_arr[nofu_chu - 1]) / parseFloat(nofu_arr[nofu_chu + 1]));
+						return nofu_fn_chengchu(nofu_arr);
+					} else {
+						return result_nofu_fn_chengchu = [false, false];
+					}
+
+				} else {
+					let eval_build_arr2 = eval(nofu_arr.splice(0, 3).join(""));
+					nofu_arr.unshift(eval_build_arr2);
+					return nofu_fn_chengchu(nofu_arr);
+				}
+
+			} else {
+				result_nofu_fn_chengchu = [true, nofu_arr[0]];
+				return result_nofu_fn_chengchu
+			}
+		}
+		nofu_fn_bar();
+		return result_nofu
 	}
+	//旧整除函数
+	// do_result_zhengchu: function (build_arr) {
+	// 	let result_zhengchu = false;
+	// 	let build_arr_new = build_arr.slice();
+
+	// 	function zhengchu_fn() {
+	// 		let zhengchu_cheng = build_arr_new.indexOf("*");
+	// 		let zhengchu_chu = build_arr_new.indexOf("/");
+	// 		if (build_arr_new.length >= 3 && zhengchu_chu >= 0) {
+	// 			if (zhengchu_cheng < zhengchu_chu && zhengchu_cheng >= 0) {
+	// 				build_arr_new.splice(zhengchu_cheng - 1, 3, parseFloat(build_arr_new[zhengchu_cheng - 1]) * parseFloat(build_arr_new[zhengchu_cheng + 1]));
+	// 				zhengchu_fn();
+	// 			} else {
+	// 				if (parseFloat(build_arr_new[zhengchu_chu - 1]) % parseFloat(build_arr_new[zhengchu_chu + 1]) == 0) {
+	// 					build_arr_new.splice(zhengchu_chu - 1, 3, parseFloat(build_arr_new[zhengchu_chu - 1]) / parseFloat(build_arr_new[zhengchu_chu + 1]));
+	// 					zhengchu_fn();
+	// 				} else {
+	// 					result_zhengchu = false;
+	// 					return
+
+	// 				}
+	// 			}
+	// 		} else {
+	// 			result_zhengchu = true;
+	// 			return
+	// 		}
+	// 	}
+	// 	zhengchu_fn();
+	// 	return result_zhengchu
+	// }
 
 }
 
@@ -311,7 +490,61 @@ function do_build_arr(build_obj) {
 			//build_arr.pop();
 		}
 	}
+	//此处可添加其他算式设置，设置的函数必须有返回值，这个返回值传递给build_arr
+	build_arr = do_build_bra(build_arr);
 	return build_arr
+}
+
+function do_build_bra(build_arr) {
+	//获取是否执行添加括号操作
+	let bra_checked = $("#co_add_bra_input input").eq(0).prop("checked");
+	//console.log(bra_checked);
+	let s_build_arr = build_arr.slice();
+	//let bra_checked=true;
+	let num_num_sum = 0;
+	const reg = /\d/;
+	//验证数字个数
+	for (let index = 0; index < build_arr.length; index++) {
+		if (reg.test(build_arr[index])) {
+			num_num_sum++;
+		}
+		if (index + 1 == build_arr.length && num_num_sum < 3) {
+			//alert("参数太少")
+			return s_build_arr;
+		}
+	}
+	if (bra_checked) {
+
+
+		let index_test = 0;
+		let index_frist = 0;
+		let index_end = 50;
+
+		while (index_test < 1) {
+			let len_radom_head = Math.floor(Math.random() * build_arr.length);
+			let len_radom_foot = len_radom_head + 1 + Math.floor(Math.random() * (build_arr.length - len_radom_head - 1));
+
+			if (reg.test(build_arr[len_radom_head]) && reg.test(build_arr[len_radom_foot])) {
+				build_arr.splice(len_radom_head, 0, "(");
+				build_arr.splice(len_radom_foot + 2, 0, ")");
+				let x = eval(build_arr.join(""));
+				let y = eval(s_build_arr.join(""));
+
+				if (x != y && !isNaN(x) && !isNaN(y)) {
+					return build_arr
+				} else {
+					build_arr = s_build_arr.slice();
+					index_frist++
+					if (index_frist >= index_end) {
+						return s_build_arr
+					}
+				}
+			}
+		}
+
+	} else {
+		return s_build_arr
+	}
 }
 
 function do_build_obj() {
