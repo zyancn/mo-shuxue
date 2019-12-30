@@ -212,14 +212,16 @@ result_method_class = {
 		}
 	},
 	do_result_jiewei: function (build_arr) {
-		let result_jiewei = true;
 
-		let result_jiewei_num = parseFloat($("#jiewei input")[0].value);
+		let result_jiewei = true;
+		let result_jiewei_num = parseInt($("#jiewei input")[0].value);
+		if (result_jiewei_num>=10||result_jiewei_num<0) {
+			alert("请在【控制最后一位不能出现哪个数字】中输入0到9的数字");
+			result_method_class.method_err = true;
+		}
 		for (let index = 0; index < build_arr.length; index++) {
-			let build_arr_num = parseFloat(build_arr[index]);
-			if (!isNaN(build_arr_num)) {
-				let build_arr_str = build_arr_num.toString();
-				if (build_arr_str.slice(-1) == result_jiewei_num.toString()) {
+			if (!isNaN(parseFloat(build_arr[index]))) {
+				if (build_arr[index].slice(-1) == result_jiewei_num.toString()) {
 					result_jiewei = false;
 				}
 			}
@@ -527,10 +529,10 @@ function do_build_bra(build_arr) {
 			if (reg.test(build_arr[len_radom_head]) && reg.test(build_arr[len_radom_foot])) {
 				build_arr.splice(len_radom_head, 0, "(");
 				build_arr.splice(len_radom_foot + 2, 0, ")");
-				let x = eval(build_arr.join(""));
-				let y = eval(s_build_arr.join(""));
-
+				let x = eval(build_arr.join("")).toFixed(11);
+				let y = eval(s_build_arr.join("")).toFixed(11);
 				if (x != y && !isNaN(x) && !isNaN(y)) {
+					
 					return build_arr
 				} else {
 					build_arr = s_build_arr.slice();
@@ -574,7 +576,8 @@ function do_build_canshu(num) {
 	let num_make = Math.random() * 100;
 	if (num_make >= 0 && num_make <= num_random) {
 		num_result = parseFloat(num_min + Math.random() * (num_max - num_min)).toFixed(num_float);
-		if (num_result < 0) {
+		num_result=num_result+"";
+		if (parseFloat(num_result) < 0) {
 			num_result = "(" + num_result + ")"
 		}
 	} else {
