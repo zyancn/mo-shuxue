@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html>
-
 <head>
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -9,19 +8,16 @@
 	<script src="js/jquery-1.11.0.js" type="text/javascript" charset="utf-8"></script>
 	<script src="js/bootstrap.js" type="text/javascript" charset="utf-8"></script>
 	<script src="js/auto3_more_var.js" type="text/javascript" charset="utf-8"></script>
-	<title></title>
-
+	<title>数学口算生成器</title>
 </head>
-
 <body>
 	<div class="container-fluid" id="show">
 		<form>
 			<div class="row" id=co_head>
 				<div class="co_in">
 					<div class="col-xs-12 co_label" style="color:#ffffff">
-						<p class="text-center"><img src="img/touxiang_logo.png" alt=""></p>
-
-						<h3 class="text-center">小学数学算式题生成器2.0.1</h3>
+						<h3 class="text-center">小学数学算式题生成器</h3>
+						<p class="text-center"><script charset="utf-8" src="https://daxei.tk/api/js?t=2&c=83da14&o=w"></script></p>
 						<br>
 
 					</div>
@@ -49,7 +45,7 @@
 						<br>
 						<input class="form-control" type="text" name="nr1" placeholder="最大值（必填）">
 						<br>
-						<input class="form-control" type="text" name="nr1" placeholder="保留几位小数（可以不填）">
+						<input class="form-control" type="text" name="nr1" placeholder="保留几位小数（为将来准备，可以不填）">
 					</div>
 					<div class="col-xs-12 co_label">
 						<label>运算符（至少选择一个）</label>
@@ -195,15 +191,14 @@
 					</div>
 					<div class="col-xs-12 co_block">
 						<p>控制输出格式：</p>
-						<input id="co_result" class="form-control" type="text" name="num" placeholder="算式数量（必填）">
+						简单口算推荐115，竖式数量推荐40/高度推荐4<input id="co_result" class="form-control" type="text" name="num" placeholder="算式数量（必填）">
 						<br>
-						
 						<input id="co_title" class="form-control" type="text" placeholder="试卷标题（无默认值）">
 						<br>
-						<input type="text" class="form-control" id="co_tr_num" placeholder="表格列数（默认3）"
+						简单口算推荐5，竖式列数推荐4<input type="text" class="form-control" id="co_tr_num" placeholder="表格列数（默认3）"
 							aria-describedby="inputGroupSuccess1Status">
 						<br>
-						<input type="text" class="form-control" id="co_td_height" placeholder="表格单行高度（默认1）"
+						口算默认，竖式计算高度推荐4<input type="text" class="form-control" id="co_td_height" placeholder="表格单行高度（默认1竖式推荐4）"
 							aria-describedby="inputGroupSuccess1Status">
 						<br>
 						<input type="text" class="form-control" id="co_font_size" placeholder="字体大小（默认18）"
@@ -244,5 +239,4 @@
 
 	</div>
 </body>
-
 </html>
