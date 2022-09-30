@@ -1,4 +1,4 @@
-body{font-family:"microsoft yahei"; background-color:#cccccc}
+body{font-family:"microsoft yahei"; background-color:#ffffff}
 .co_in{
 	margin:auto;
 	padding:0;
@@ -17,7 +17,7 @@ body{font-family:"microsoft yahei"; background-color:#cccccc}
 	border-bottom: 1px dashed #000 
 }
 #co_head{
-	background-color: #1087e7bb;
+	background-image:url('https://ks.laoyan.me/img/bg.jpg');
 	padding: 30px 0px;
 	border-bottom: 1px dashed #000 
 }
