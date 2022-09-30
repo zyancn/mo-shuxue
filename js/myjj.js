@@ -1,4 +1,4 @@
-var dictaColor = '#ffffff'; //文字颜色
+var dictaColor = '#FF9900'; //文字颜色
 function dowritedicta(num){
  var randid = Math.round(Math.random()*num);
  randid = randid >= num ? num-1 : randid;
