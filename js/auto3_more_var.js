@@ -82,7 +82,7 @@ function do_table(result_arr) {
 	//表格
 	let get_tr_num = parseInt($("#co_tr_num").prop("value"));
 	if ($("#co_tr_num").prop("value").trim() == "") {
-		get_tr_num = 3;
+		get_tr_num = 5;
 	}
 	if (get_tr_num <= 0) {
 		alert("表格列数输入错误，请重新输入")
