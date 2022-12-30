@@ -24,7 +24,23 @@
 				<div class="co_in">
 					<div class="col-xs-12 co_label" style="color:#ffffff">
 						<h3 class="text-center">小学数学算式题生成器</h3>
-						<p class="text-center">勤劳一日，可得一夜安眠；勤劳一生，可得幸福长眠。——达·芬奇</p>
+						<p class="text-center">
+						 <!-- 一言 -->
+                        <li class="nav-item mr-3 mr-lg-0 d-none d-lg-block">
+                            <script>
+                                fetch('https://v1.hitokoto.cn')
+                                    .then(response => response.json())
+                                    .then(data => {
+                                    const hitokoto = document.getElementById('hitokoto_text')
+                                    hitokoto.href = 'https://hitokoto.cn/?uuid=' + data.uuid
+                                    hitokoto.innerText = data.hitokoto
+                                    })
+                                    .catch(console.error)
+                            </script>                           
+                            <div id="hitokoto"><a href="#" target="_blank" id="hitokoto_text">疏影横斜水清浅，暗香浮动月黄昏。</a></div>
+                        </li>
+                        <!-- 一言 end -->
+						</p>
 						<br>
 
 					</div>
